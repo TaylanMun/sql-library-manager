@@ -37,19 +37,19 @@ router.get(
               },
             },
             {
-              author: { 
-                [Op.like]: "%" + query + "%" 
+              author: {
+                [Op.like]: "%" + query + "%",
               },
             },
             {
-              genre: { 
-                [Op.like]: "%" + query + "%" 
+              genre: {
+                [Op.like]: "%" + query + "%",
               },
             },
             {
-              year: { 
-                [Op.like]: "%" + query + "%" 
-            },
+              year: {
+                [Op.like]: "%" + query + "%",
+              },
             },
           ],
         }
@@ -58,18 +58,20 @@ router.get(
     // pagination
     const page = parseInt(req.query.page) || PAGE_NUMBER;
     const offset = (page - 1) * PAGE_LIMIT;
+    // order by last added 
+    const order = [["id", "DESC"]];
 
     // get books according to conditions
     const books = await Book.findAll({
       where: searchCondition,
-      limit : PAGE_LIMIT,
+      limit: PAGE_LIMIT,
       offset,
-      order: [
-        ['id', 'DESC'],
-      ]
+      order,
     });
     // get book count
     const numberOfTotalBooks = await Book.count({ where: searchCondition });
+    // get page count for paging
+    const pageCount = Math.ceil(numberOfTotalBooks / PAGE_LIMIT);
     let url;
 
     if (query) {
@@ -77,8 +79,6 @@ router.get(
     } else {
       url = `${req.baseUrl}?`;
     }
-
-    const pageCount = Math.ceil(numberOfTotalBooks / PAGE_LIMIT);
 
     res.render("index", {
       books,
@@ -131,7 +131,9 @@ router.get(
         title: `Edit Book: ${book.title}`,
       });
     } else {
-        next(createError(404, "We can't seem to find the book you're looking for."));
+      next(
+        createError(404, "We can't seem to find the book you're looking for.")
+      );
     }
   })
 );
@@ -147,7 +149,9 @@ router.post(
         await book.update(req.body);
         res.redirect(`/books/${book.id}`);
       } else {
-        next(createError(404, "We can't seem to find the book you're looking for."));
+        next(
+          createError(404, "We can't seem to find the book you're looking for.")
+        );
       }
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
@@ -174,7 +178,9 @@ router.post(
       await book.destroy();
       res.redirect("/books");
     } else {
-      next(createError(404, "We can't seem to find the book you're looking for."));
+      next(
+        createError(404, "We can't seem to find the book you're looking for.")
+      );
     }
   })
 );
