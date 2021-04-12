@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    h1= title
+    div.row
+        div.col-sm-8
+            a(href="/books/new", class="btn btn-success") Create New Book
+        div.col-sm-4
+            form(method="GET" action="/books")
+                div(class="input-group mb-3")
+                    input(name="query" class="form-control" type="text" placeholder="Search here")
+                    div(class="input-group-append")
+                        button(type="submit" class="btn btn-primary") Search
+
+    div(class="wrapper")
+        if (books.length <= 0)
+            .text-center
+                h2 Sorry, No result found :(
+                p We can't seem to find any books that match your search for 
+                    b=`'${query}'`
+                a(class="btn btn-warning" href="/books") Go to home
+        else
+            if (query)
+                .row
+                    .col-sm-12
+                        h3(class="text-center")= `~Your search for '${query}'~`
+                            a(href='/books', class="btn btn-warning float-right") Clear Search
+            table(class="table")
+                thead
+                    tr 
+                        th Title
+                        th Author
+                        th Genre
+                        th Year
+                tbody 
+                    each book in books
+                        tr 
+                            th
+                                a(href=`/books/${book.id}`) #{book.title}
+                            th= book.author
+                            th= book.genre
+                            th= book.year
+            if(pageCount != 1)
+                include books/page-links
+        br

@@ -1,0 +1,14 @@
+extends layout_error
+
+block content
+  section(class="page_error")
+    div(class="container mt-5")
+      .row
+        .col-sm-12
+          div(class="col-sm-10 offset-1 text-center")
+            .four_zero_four_bg
+              h1(class="text-center")=err.status
+            .contant_box_error
+              h3(class="h2") Sorry, it's me, not you :(
+              p=err.message
+              a(class="link_error", href="/") Go to home

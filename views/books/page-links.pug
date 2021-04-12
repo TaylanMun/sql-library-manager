@@ -1,0 +1,20 @@
+ul(class="pagination justify-content-end")
+    if (page != 1)
+        li(class="page-item")
+            a(href=`${url}page=${page-1}`, class="page-link") Prev
+    else        
+        li(class="page-item disabled")
+            a(href=`${url}page=${page-1}`, class="page-link") Prev
+    - for (let i=1; i<= pageCount; i++)
+        if (i == page)
+            li(class="page-item active")
+               a(href=`${url}page=${i}`, class="page-link")= i
+        else
+            li(class="page-item")
+                a(href=`${url}page=${i}`, class="page-link")= i
+    if (page != pageCount)
+        li(class="page-item")
+            a(href=`${url}page=${page+1}`, class="page-link") Next
+    else        
+        li(class="page-item disabled")
+            a(href=`${url}page=${page+1}`, class="page-link") Next
