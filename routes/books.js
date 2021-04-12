@@ -29,7 +29,7 @@ router.get(
     // search query
     const { query } = req.query;
     // take url for pagination
-    let url;
+    let url = `${req.baseUrl}?`;
     let searchCondition = null;
     if (query) {
       url = `${req.baseUrl}?query=${query}&`;
@@ -57,8 +57,6 @@ router.get(
           },
         ],
       };
-    } else {
-      url = `${req.baseUrl}?`;
     }
 
     // pagination
