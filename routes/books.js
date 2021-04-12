@@ -64,6 +64,9 @@ router.get(
       where: searchCondition,
       limit : PAGE_LIMIT,
       offset,
+      order: [
+        ['id', 'DESC'],
+      ]
     });
     // get book count
     const numberOfTotalBooks = await Book.count({ where: searchCondition });
