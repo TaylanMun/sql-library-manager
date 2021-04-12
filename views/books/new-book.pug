@@ -3,7 +3,7 @@ extends ../layout
 block content
     h1= title
     div(class="wrapper")
-        include errors
+        include validation-error
         form(action="/books", method="post")
             include form
             p 

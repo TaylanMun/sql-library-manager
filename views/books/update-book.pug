@@ -4,7 +4,7 @@ block content
   header  
     h1= title
     div(class="wrapper")
-        include errors
+        include validation-error
         form(action=`/books/${book.id}`, method="post")
             include form
             p 
