@@ -28,37 +28,43 @@ router.get(
   asyncHandler(async (req, res) => {
     // search query
     const { query } = req.query;
-    let searchCondition = query
-      ? {
-          [Op.or]: [
-            {
-              title: {
-                [Op.like]: "%" + query + "%",
-              },
+    // take url for pagination
+    let url;
+    let searchCondition = null;
+    if (query) {
+      url = `${req.baseUrl}?query=${query}&`;
+      searchCondition = {
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: "%" + query + "%",
             },
-            {
-              author: {
-                [Op.like]: "%" + query + "%",
-              },
+          },
+          {
+            author: {
+              [Op.like]: "%" + query + "%",
             },
-            {
-              genre: {
-                [Op.like]: "%" + query + "%",
-              },
+          },
+          {
+            genre: {
+              [Op.like]: "%" + query + "%",
             },
-            {
-              year: {
-                [Op.like]: "%" + query + "%",
-              },
+          },
+          {
+            year: {
+              [Op.like]: "%" + query + "%",
             },
-          ],
-        }
-      : null;
+          },
+        ],
+      };
+    } else {
+      url = `${req.baseUrl}?`;
+    }
 
     // pagination
     const page = parseInt(req.query.page) || PAGE_NUMBER;
     const offset = (page - 1) * PAGE_LIMIT;
-    // order by last added 
+    // order by last added
     const order = [["id", "DESC"]];
 
     // get books according to conditions
@@ -72,13 +78,6 @@ router.get(
     const numberOfTotalBooks = await Book.count({ where: searchCondition });
     // get page count for paging
     const pageCount = Math.ceil(numberOfTotalBooks / PAGE_LIMIT);
-    let url;
-
-    if (query) {
-      url = `${req.baseUrl}?query=${query}&`;
-    } else {
-      url = `${req.baseUrl}?`;
-    }
 
     res.render("index", {
       books,
