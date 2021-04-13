@@ -13,6 +13,7 @@ Node Js, Express Js, Pug, SQLite and SQL ORM Sequelize project.It is a project i
 
 ## Description
 - Using bootstrap css
+- [Added Error Pages](https://codepen.io/Navedkhan012/pen/vrWQMY/)
 - Added Error Page using bootstrap css and custom css
 - Pagination added using bootstrap css
 - Search added using bootstrap css
